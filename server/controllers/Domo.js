@@ -10,12 +10,13 @@ const makeDomo = async (req, res) => {
   const domoData = {
     name: req.body.name,
     age: req.body.age,
-    owner: req.session.account.id,
+    owner: req.session.account._id,
   }
 
   try {
     const newDomo = new Domo(domoData);
     await newDomo.save()
+    console.log("Happened")
     return res.json({redirect: '/maker'});
   }
   catch (err) {
@@ -23,21 +24,20 @@ const makeDomo = async (req, res) => {
     if(err.code === 11000)
     {
       return res.status(400).json({error: "DOMO ALREADY EXIST"})
-  
     }
     return res.status(400).json({ error: 'AN ERROR OCCUREd'})
   }
 }
 
 const makerPage = (req, res) => {
-    Domo.findByOwner(req.session.account.id, (err, docs) => {
+  console.log(req.session.account._id)
+    Domo.findByOwner(req.session.account._id, (err, docs) => {
       if(err) {
         console.log(err)
         return res.status(400).json({ error: 'An error has occured!'})
         
       }
-
-      return res.render('app', {domo: docs})
+      return res.render('app', {domos: docs})
     })
 };
 
