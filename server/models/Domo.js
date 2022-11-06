@@ -1,11 +1,12 @@
-const mongoose = require('mongoose')
-const _ = require('underscore')
-const models = require('../models')
-const Domo = models.Domo
+const mongoose = require('mongoose');
+const _ = require('underscore');
+// const models = require('.');
 
-let DomoModel = {}
+// const { Domo } = models;
 
-const setName = (name) => _.escape(name).trim()
+let DomoModel = {};
+
+const setName = (name) => _.escape(name).trim();
 
 const DomoSchema = new mongoose.Schema({
   name: {
@@ -28,21 +29,20 @@ const DomoSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-})
+});
 
 DomoSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   age: doc.age,
-})
+});
 
-DomoSchema.statics.findByOwner= (ownerID, callback) => {
+DomoSchema.statics.findByOwner = (ownerID, callback) => {
   const search = {
-    owner: mongoose.Types.ObjectId(ownerID)
-  }
-  return DomoModel.find(search).select('name age').lean().exec(callback)
-}
+    owner: mongoose.Types.ObjectId(ownerID),
+  };
+  return DomoModel.find(search).select('name age').lean().exec(callback);
+};
 
-DomoModel = mongoose.model('Domo', DomoSchema)
+DomoModel = mongoose.model('Domo', DomoSchema);
 
-module.exports = DomoModel
-
+module.exports = DomoModel;
