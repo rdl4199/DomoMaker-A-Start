@@ -113,7 +113,7 @@ const init = () => {
         return false;
       }
 
-      sendPost(domoForm.getAttribute('action'), {name, age, _csfr});
+      sendPost(domoForm.getAttribute('action'), {name, age, _csrf});
       return false;
     });
   }
